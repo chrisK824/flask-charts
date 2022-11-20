@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.3.1/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.8.0/Chart.min.css" rel="stylesheet">
+  <!--suppress JSUnresolvedLibraryURL -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.0/jquery.min.js"></script>
+  <!--suppress JSUnresolvedLibraryURL -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.3.1/js/bootstrap.min.js"></script>
+  <!--suppress JSUnresolvedLibraryURL -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.8.0/Chart.min.js"></script>
+  <script src="static/Chart.min.js"></script>
+</head>
+
+<body>
+  <ul class="nav">
+    <li class="nav-item">
+      <a class="nav-link active" href="/">Home</a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link" href="/line">Line</a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link" href="/bars">Bars</a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link" href="/feed">Feed</a>
+    </li>
+  </ul>
+  <div class="container">
+    <div class="row">
+      <div class="col-12">
+        <div class="card">
+          <div class="card-body">
+            <canvas id="chart"></canvas>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+  <script>
+    // bar chart data
+    var barData = {
+      labels: [{% for item in labels %}
+    "{{ item }}",
+      {% endfor %}],
+    datasets: [
+      {
+        fillColor: "rgba(151,187,205,0.2)",
+        strokeColor: "rgba(151,187,205,1)",
+        pointColor: "rgba(151,187,205,1)",
+        pointStrokeColor: "#fff",
+        pointHighlightFill: "#fff",
+        pointHighlightStroke: "rgba(151,187,205,1)",
+        bezierCurve: false,
+        data: [{% for item in first %}
+               "{{ item }}",
+      {% endfor %}]
+      },
+    {
+      fillColor: "rgba(205,187,151,.1)",
+        strokeColor: "rgba(205,187,151,1)",
+          pointColor: "rgba(205,187,151,1)",
+            pointStrokeColor: "#ddd",
+              pointHighlightFill: "#ddd",
+                pointHighlightStroke: "rgba(205,187,151,1)",
+                  bezierCurve : false,
+                    data : [{% for item in second %}
+    "{{ item }}",
+      {% endfor %}]
+      }]}
+    Chart.defaults.global.animationSteps = 100;
+    Chart.defaults.global.tooltipYPadding = 16;
+    Chart.defaults.global.tooltipCornerRadius = 0;
+    Chart.defaults.global.tooltipTitleFontStyle = "normal";
+    Chart.defaults.global.tooltipFillColor = "rgba(0,0,0,0.8)";
+    Chart.defaults.global.animationEasing = "easeOutBounce";
+    Chart.defaults.global.responsive = true;
+    Chart.defaults.global.scaleLineColor = "black";
+    Chart.defaults.global.scaleFontSize = 16;
+    // get bar chart canvas
+    var mychart = document.getElementById("chart").getContext("2d");
+    steps = 5
+    max = 3000
+    // draw bar chart
+    new Chart(mychart).Bar(barData, {
+      scaleOverride: true,
+      scaleSteps: steps,
+      scaleStepWidth: Math.ceil(max / steps),
+      scaleStartValue: 0,
+      scaleShowVerticalLines: true,
+      scaleShowGridLines: true,
+      barShowStroke: true,
+      scaleShowLabels: true
+    });
+  </script>
+</body>
+
+</html>
