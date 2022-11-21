@@ -8,7 +8,8 @@ from flask_socketio import SocketIO
 import eventlet
 eventlet.monkey_patch()  # magic stuff, makes thread work like thread
 socketio = SocketIO()
-app = Flask(__name__, static_url_path='/static')
+# app = Flask(__name__, static_url_path='/static')
+app = Flask(__name__)
 app.debug = True
 app.config['SESSION_TYPE'] = 'memcached'
 app.config['SECRET_KEY'] = 'super secret key'
