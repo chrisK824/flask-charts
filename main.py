@@ -17,7 +17,6 @@ socketio.init_app(app)
 
 random.seed()  # Initialize the random number generator
 
-
 @app.route('/')
 def index():
     return render_template('index.html', async_mode=socketio.async_mode)
